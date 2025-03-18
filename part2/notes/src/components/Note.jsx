@@ -1,6 +1,4 @@
-const Note = (props) => {
-  console.log(props);
-  const { note } = props
+const Note = ({ note }) => {
   
   return <li>{note.content}</li>
 }
