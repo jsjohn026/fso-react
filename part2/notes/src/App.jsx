@@ -1,7 +1,6 @@
 import Note from "./components/Note";
 
 const App = ({ notes }) => {
-  console.log('App works...');
   
   return (
     <div>
