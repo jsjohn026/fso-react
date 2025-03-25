@@ -9,6 +9,7 @@ const Persons = ({ personsToShow, handleRemoval }) => {
   
   const removePerson = id => {
     const person = personsToShow.find(person => person.id === id)
+    window.confirm(`Delete ${person.name} ?`)
 
     personService
       .remove(id)
