@@ -19,24 +19,31 @@ const App = () => {
   const [searchLetters, setSearchLetters] = useState('')
 
   useEffect(() => {
-    console.log('effect')
     axios
       .get('http://localhost:3001/persons')
       .then(response => {
-        console.log('promise fulfilled')
         setPersons(response.data)
       })
   }, [])
 
   const addPerson = (e) => {
     e.preventDefault()
-    const personObject = {
-      name: newName,
-      number: newNumber,
-      id: persons.length + 1
+    if (persons.find(person => person.name === newName)) {
+      window.alert(`${newName} is already added to phonebook`)
+    } else {
+
+      const personObject = {
+        name: newName,
+        number: newNumber,
+      }
+
+      axios
+        .post('http://localhost:3001/persons', personObject)
+        .then(response => {
+          setPersons(persons.concat(personObject))
+        })
     }
-    
-    persons.find(el => el.name === newName) ? window.alert(`${newName} is already added to phonebook`) : setPersons(persons.concat(personObject))
+
     setNewName('')
     setNewNumber('')
   }
