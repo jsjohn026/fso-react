@@ -5,23 +5,7 @@ import PersonForm from "./components/PersonForm"
 import Filter from "./components/Filter"
 
 
-const Persons = ({ personsToShow, handleRemoval }) => {
-  
-  const removePerson = id => {
-    const person = personsToShow.find(person => person.id === id)
-    window.confirm(`Delete ${person.name} ?`)
-
-    personService
-      .remove(id)
-      .then(() => {
-        console.log(`${person.name} has been removed from the phone book`)
-        handleRemoval(id)
-      })
-      .catch(error => {
-        console.error('Failed to remove person', error);
-      })
-
-  }
+const Persons = ({ personsToShow, removePerson }) => {
 
   return (
     <div>
@@ -74,6 +58,21 @@ const App = () => {
     setNewNumber('')
   }
 
+  const removePerson = id => {
+    const person = personsToShow.find(person => person.id === id)
+    window.confirm(`Delete ${person.name} ?`)
+
+    personService
+      .remove(id)
+      .then(() => {
+        console.log(`${person.name} has been removed from the phone book`)
+        setPersons(persons.filter(person => person.id !== id))
+      })
+      .catch(error => {
+        console.error('Failed to remove person', error);
+      })
+  }
+
   const handleNameChange = (e) => {
     setNewName(e.target.value)
   }
@@ -84,10 +83,6 @@ const App = () => {
 
   const handleSearchChange = (e) => {
     setSearchLetters(e.target.value.toLowerCase())
-  }
-
-  const handleRemoval = (id) => {
-    setPersons(persons.filter(person => person.id !== id))
   }
 
   const personsToShow = searchLetters.length > 0 ? 
@@ -110,7 +105,10 @@ const App = () => {
         handleNumberChange={handleNumberChange}
       />
       <h3>Numbers</h3>
-      <Persons personsToShow={personsToShow} handleRemoval={handleRemoval} />
+      <Persons 
+        personsToShow={personsToShow} 
+        removePerson={removePerson} 
+      />
     </div>
   )
 }
