@@ -4,9 +4,7 @@ import Person from "./components/Person"
 import PersonForm from "./components/PersonForm"
 import Filter from "./components/Filter"
 
-
 const Persons = ({ personsToShow, removePerson }) => {
-
   return (
     <div>
     {personsToShow.map((person) => 
@@ -32,6 +30,10 @@ const App = () => {
         setPersons(initialPersons)
       })
   }, [])
+
+  const filteredPersons = searchLetters.length > 0 
+    ? persons.filter(person => person.name.toLowerCase().substring(0, searchLetters.length) === searchLetters)
+    : persons
 
   const addPerson = (e) => {
     e.preventDefault()
@@ -59,18 +61,18 @@ const App = () => {
   }
 
   const removePerson = id => {
-    const person = personsToShow.find(person => person.id === id)
-    window.confirm(`Delete ${person.name} ?`)
-
-    personService
-      .remove(id)
-      .then(() => {
-        console.log(`${person.name} has been removed from the phone book`)
-        setPersons(persons.filter(person => person.id !== id))
-      })
-      .catch(error => {
-        console.error('Failed to remove person', error);
-      })
+    const person = persons.find(person => person.id === id)
+    if (window.confirm(`Delete ${person.name} ?`)) {
+      personService
+        .remove(id)
+        .then(() => {
+          console.log(`${person.name} has been removed from the phone book`)
+          setPersons(persons.filter(person => person.id !== id))
+        })
+        .catch(error => {
+          console.error('Failed to remove person', error);
+        })
+    }
   }
 
   const handleNameChange = (e) => {
@@ -84,11 +86,7 @@ const App = () => {
   const handleSearchChange = (e) => {
     setSearchLetters(e.target.value.toLowerCase())
   }
-
-  const personsToShow = searchLetters.length > 0 ? 
-    persons.filter(person => person.name.toLowerCase().substring(0, searchLetters.length) === searchLetters)
-    : persons
-
+  
   return (
     <div>
       <h2>Phonebook</h2>
@@ -106,7 +104,7 @@ const App = () => {
       />
       <h3>Numbers</h3>
       <Persons 
-        personsToShow={personsToShow} 
+        personsToShow={filteredPersons} 
         removePerson={removePerson} 
       />
     </div>
