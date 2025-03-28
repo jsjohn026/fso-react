@@ -37,15 +37,26 @@ const App = () => {
 
   const addPerson = (e) => {
     e.preventDefault()
-    if (persons.find(person => person.name === newName)) {
-      window.alert(`${newName} is already added to phonebook`)
-    } else {
+    
+    const personObject = {
+      name: newName,
+      number: newNumber,
+    }
 
-      const personObject = {
-        name: newName,
-        number: newNumber,
+    const existingPerson = persons.find(person => person.name === newName)
+
+    if (existingPerson) {
+      if (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)) {
+        personService
+          .update(existingPerson.id, { ...personObject})
+          .then(updatedPerson => {
+            setPersons(persons.map(person => person.id !== updatedPerson.id ? person : updatedPerson))
+          })
+          .catch(error => {
+            console.log('Failed to update person: ', error);
+          })
       }
-
+    } else {
       personService
         .create(personObject)
         .then(returnedPerson => {
