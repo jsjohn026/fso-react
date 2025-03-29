@@ -17,11 +17,24 @@ const Persons = ({ personsToShow, removePerson }) => {
   )
 }
 
+const Notification = ({ message }) => {
+  if (message === null) {
+    return null
+  }
+
+  return (
+    <div className='message'>
+      {message}
+    </div>
+  )
+}
+
 const App = () => {
   const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [searchLetters, setSearchLetters] = useState('')
+  const [message, setMessage] = useState(null)
 
   useEffect(() => {
     personService
@@ -50,6 +63,10 @@ const App = () => {
         personService
           .update(existingPerson.id, { ...personObject})
           .then(updatedPerson => {
+            setMessage(`Added ${updatedPerson.name}`)
+            setTimeout(() => {
+              setMessage(null)
+            }, 5000)
             setPersons(persons.map(person => person.id !== updatedPerson.id ? person : updatedPerson))
           })
           .catch(error => {
@@ -60,6 +77,10 @@ const App = () => {
       personService
         .create(personObject)
         .then(returnedPerson => {
+          setMessage(`Added ${returnedPerson.name}`)
+          setTimeout(() => {
+            setMessage(null)
+          }, 5000)
           setPersons(persons.concat(returnedPerson))
         })
         .catch(error => {
@@ -101,6 +122,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={message} />
       <Filter 
         searchLetters={searchLetters} 
         handleSearchChange={handleSearchChange} 
