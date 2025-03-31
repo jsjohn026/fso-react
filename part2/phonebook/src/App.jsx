@@ -23,8 +23,8 @@ const Notification = ({ message }) => {
   }
 
   return (
-    <div className='message'>
-      {message}
+    <div className={message.className}>
+      {message.text}
     </div>
   )
 }
@@ -63,28 +63,41 @@ const App = () => {
         personService
           .update(existingPerson.id, { ...personObject})
           .then(updatedPerson => {
-            setMessage(`Added ${updatedPerson.name}`)
+            setMessage({
+              text: `Added ${updatedPerson.name}`,
+              className: 'success'
+            })
             setTimeout(() => {
               setMessage(null)
             }, 5000)
             setPersons(persons.map(person => person.id !== updatedPerson.id ? person : updatedPerson))
           })
           .catch(error => {
-            console.log('Failed to update person: ', error);
+            console.log('Failed to update person: ', error)
+            setMessage({
+              text: `Information of ${existingPerson.name} has already been removed from server`,
+              className: 'error'
+            })
+            setTimeout(() => {
+              setMessage(null)
+            }, 5000)
           })
       }
     } else {
       personService
         .create(personObject)
         .then(returnedPerson => {
-          setMessage(`Added ${returnedPerson.name}`)
+          setMessage({
+            text: `Added ${returnedPerson.name}`,
+            className: 'success'
+          })
           setTimeout(() => {
             setMessage(null)
           }, 5000)
           setPersons(persons.concat(returnedPerson))
         })
         .catch(error => {
-          console.log('Failed to remove person: ', error);
+          console.log('Failed to add person: ', error);
         })
     }
 
@@ -102,7 +115,7 @@ const App = () => {
           setPersons(persons.filter(person => person.id !== id))
         })
         .catch(error => {
-          console.error('Failed to remove person', error);
+          console.error('Failed to remove person', error)
         })
     }
   }
@@ -122,7 +135,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <Notification message={message} />
+      <Notification message={message} className={'success'} />
       <Filter 
         searchLetters={searchLetters} 
         handleSearchChange={handleSearchChange} 
