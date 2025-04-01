@@ -19,6 +19,16 @@
       "id": "6ea7",
       "content": "Axios can save time",
       "important": false
+    },
+    {
+      "id": "797a",
+      "content": "POST is used to add data to a REST api",
+      "important": false
+    },
+    {
+      "id": "cf91",
+      "content": "Network tab of devtools is most beneficial",
+      "important": true
     }
   ]
 }
