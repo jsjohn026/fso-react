@@ -67,12 +67,22 @@ const generateId = () => {
 }
 
 app.post('/api/persons', (request, response) => {
+  console.log('Headers:', request.headers)
+  console.log('Body:', request.body)
   const body = request.body
-  console.log(body)
   
-  if (!body.name) {
+  if (!body.name || !body.number) {
     return response.status(400).json({
       error: 'content missing'
+    })
+  }
+
+  const submittedName = body.name
+  const currentNames = [...persons.filter(person => person.name === submittedName)]
+  console.log(currentNames)
+  if (currentNames.length > 0 && submittedName === currentNames[0].name) {
+    return response.status(409).json({
+      error: 'name must be unique'
     })
   }
 
@@ -83,7 +93,6 @@ app.post('/api/persons', (request, response) => {
   }
 
   persons = persons.concat(person)
-
   response.json(person)
 })
 
