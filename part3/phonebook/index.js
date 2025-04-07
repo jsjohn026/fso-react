@@ -67,8 +67,6 @@ const generateId = () => {
 }
 
 app.post('/api/persons', (request, response) => {
-  console.log('Headers:', request.headers)
-  console.log('Body:', request.body)
   const body = request.body
   
   if (!body.name || !body.number) {
@@ -79,7 +77,6 @@ app.post('/api/persons', (request, response) => {
 
   const submittedName = body.name
   const currentNames = [...persons.filter(person => person.name === submittedName)]
-  console.log(currentNames)
   if (currentNames.length > 0 && submittedName === currentNames[0].name) {
     return response.status(409).json({
       error: 'name must be unique'
