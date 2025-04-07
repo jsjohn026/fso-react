@@ -1,5 +1,6 @@
 const express = require('express')
 const app = express()
+const morgan = require('morgan')
 
 app.use(express.json())
 
@@ -30,6 +31,10 @@ let info = `
   <p>Phonebook has info for ${persons.length} people</p>
   <p>${new Date()}</p>
 `
+
+morgan.token('body', (req) => JSON.stringify(req.body))
+
+app.use(morgan(':method :url :status :res[content=length] :response-time ms :body'))
 
 app.get('/', (request, response) => {
   response.send('<h1>Hello World</h1>')
