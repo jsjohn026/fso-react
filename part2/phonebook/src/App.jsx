@@ -97,7 +97,14 @@ const App = () => {
           setPersons(persons.concat(returnedPerson))
         })
         .catch(error => {
-          console.log('Failed to add person: ', error);
+          console.log('Failed to add person: ', error.response.data.error)
+          setMessage({
+            text: error.response.data.error,
+            className: 'error'
+          })
+          setTimeout(() => {
+            setMessage(null)
+          }, 5000)
         })
     }
 

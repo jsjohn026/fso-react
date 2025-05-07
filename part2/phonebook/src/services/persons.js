@@ -7,12 +7,16 @@ const getAll = () => {
 }
 
 const create = newPerson => {
-  const request = axios.post(baseUrl, newPerson)
+  const request = axios.post(baseUrl, newPerson, {
+    headers: { 'Content-Type': 'application/json'}
+  })
   return request.then(response => response.data)
 }
 
 const update = (id, newPerson) => {
-  const request = axios.put(`${baseUrl}/${id}`, newPerson)
+  const request = axios.put(`${baseUrl}/${id}`, newPerson, {
+    headers: { 'Content-Type': 'application/json'}
+  })
   return request.then(response => response.data)
 }
 
