@@ -1,9 +1,11 @@
 require('dotenv').config()
 const express = require('express')
 const Note = require('./models/note')
+// const config = require('./utils/config')
 
 const app = express()
 
+// logger.info(`Server running on port ${config.PORT}`)
 const requestLogger = (request, response, next) => {
   console.log('Method:', request.method)
   console.log('Path:  ', request.path)
