@@ -4,8 +4,6 @@ const Note = require('./models/note')
 
 const app = express()
 
-const password = process.argv[2]
-
 const requestLogger = (request, response, next) => {
   console.log('Method:', request.method)
   console.log('Path:  ', request.path)
@@ -13,7 +11,7 @@ const requestLogger = (request, response, next) => {
   console.log('---')
   next()
 }
-      
+
 app.use(express.static('dist'))
 app.use(express.json())
 app.use(requestLogger)
@@ -33,16 +31,16 @@ app.get('/api/notes/:id', (request, response, next) => {
   Note.findById(id).then(note => {
     note ? response.json(note) : response.status(404).end()
   })
-  .catch(error => next(error))
+    .catch(error => next(error))
 })
 
 app.delete('/api/notes/:id', (request, response, next) => {
   const id = request.params.id
   Note.findByIdAndDelete(id)
-    .then(result => {
+    .then(() => {
       response.status(204).end()
     })
-  .catch(error => next(error))
+    .catch(error => next(error))
 })
 
 app.post('/api/notes', (request, response, next) => {
