@@ -64,23 +64,26 @@ const App = () => {
           .update(existingPerson.id, { ...personObject})
           .then(updatedPerson => {
             setMessage({
-              text: `Added ${updatedPerson.name}`,
+              text: `Updated ${updatedPerson.name}`,
               className: 'success'
             })
-            setTimeout(() => {
-              setMessage(null)
-            }, 5000)
+            setTimeout(() => {setMessage(null)}, 5000)
             setPersons(persons.map(person => person.id !== updatedPerson.id ? person : updatedPerson))
           })
           .catch(error => {
             console.log('Failed to update person: ', error)
-            setMessage({
-              text: `Information of ${existingPerson.name} has already been removed from server`,
-              className: 'error'
-            })
-            setTimeout(() => {
-              setMessage(null)
-            }, 5000)
+            if (error.response && error.response.status === 400) {
+              setMessage({
+                text: error.response.data.error,
+                className: 'error'
+              })
+            } else {
+              setMessage({
+                text: `Information of ${existingPerson.name} has already been removed from server`,
+                className: 'error'
+              })
+            }
+            setTimeout(() => {setMessage(null)}, 5000)
           })
       }
     } else {
@@ -91,9 +94,7 @@ const App = () => {
             text: `Added ${returnedPerson.name}`,
             className: 'success'
           })
-          setTimeout(() => {
-            setMessage(null)
-          }, 5000)
+          setTimeout(() => {setMessage(null)}, 5000)
           setPersons(persons.concat(returnedPerson))
         })
         .catch(error => {
@@ -102,9 +103,7 @@ const App = () => {
             text: error.response.data.error,
             className: 'error'
           })
-          setTimeout(() => {
-            setMessage(null)
-          }, 5000)
+          setTimeout(() => {setMessage(null)}, 5000)
         })
     }
 
