@@ -21,20 +21,22 @@ const blogSchema = new mongoose.Schema({
 
 const Blog = mongoose.model('Blog', blogSchema)
 
-const blog = new Blog({
-  title: 'Test title',
-  author: "Tester Testerson",
-  url: 'www.testerson.com',
-  likes: 4
-})
+// const blog = new Blog({
+//   title: 'Test title',
+//   author: "Tester Testerson",
+//   url: 'www.testerson.com',
+//   likes: 4
+// })
 
-blog.save().then(result => {
-  console.log('note saved!')
-  mongoose.connection.close()
-})
+// blog.save().then(result => {
+//   console.log('note saved!')
+//   mongoose.connection.close()
+// })
 
 Blog.find({})
   .then(blogs => {
-    response.json(blogs)
+    blogs.forEach(blog => {
+      console.log(blog)
+    })
     mongoose.connection.close()
   })
