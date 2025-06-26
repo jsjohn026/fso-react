@@ -2,8 +2,8 @@ POST http://localhost:3003/api/blogs
 Content-Type: application/json
 
 {
-  "title": "Marginal Revolution", 
-  "author": "Tyler Cowen", 
-  "url": "https://marginalrevolution.com/",
-  "likes": 15 
+  "title": "Wait But Why", 
+  "author": "Tim Urban", 
+  "url": "https://waitbutwhy.com//",
+  "likes": 10 
 }
