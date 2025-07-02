@@ -1,3 +1,5 @@
+const blog = require("../models/blog")
+
 const dummy = (blogs) => {
   return 1
 }
@@ -12,8 +14,27 @@ const favoriteBlog = (blogs) => {
   })
 }
 
+const mostBlogs = (blogs) => {
+  let count = {}
+  blogs.forEach(blog => {
+    count[author] ? count[blog.author] += 1 : count[blog.author] = 1
+  })
+
+  let topAuthor = count.reduce((previous, current) => {
+    previous[author] > current[author] ? previous : current
+  })
+
+  let topBlogger = {
+    author: topAuthor, 
+    blogs: count[topAuthor]
+  }
+
+  return topBlogger
+}
+
 module.exports = {
   dummy,
   totalLikes, 
-  favoriteBlog
+  favoriteBlog, 
+  mostBlogs
 }
