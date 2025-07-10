@@ -23,6 +23,20 @@ const posts = [
     "url": "https://waitbutwhy.com//",
     "likes": 10,
     "id": "685af38dc15e05e6df4ca91d"
+  },
+  {
+    "title": "First class tests",
+    "author": "Robert C. Martin",
+    "url": "http://blog.cleancoder.com/uncle-bob/2017/05/05/TestDefinitions.htmll",
+    "likes": 8,
+    "id": "685d5cd3cccaf8d70e839043"
+  },
+  {
+    "title": "TDD harms architecture",
+    "author": "Robert C. Martin",
+    "url": "http://blog.cleancoder.com/uncle-bob/2017/03/03/TDD-Harms-Architecture.html",
+    "likes": 0,
+    "id": "685d5ceacccaf8d70e839046"
   }
 ]
 
@@ -48,7 +62,7 @@ describe('total likes', () => {
 
   test('of a bigger list is calculated right', () => {
     const results = listHelper.totalLikes(posts)
-    assert.strictEqual(results, 29)
+    assert.strictEqual(results, 37)
   })
 })
 
@@ -56,5 +70,15 @@ describe('most likes', () => {
   test('of a list of blogs', () => {
     const results = listHelper.favoriteBlog(posts)
     assert.strictEqual(results, posts[1])
+  })
+})
+
+describe('author with the most blogs', () => {
+  test('of a list of blogs', () => {
+    const results = listHelper.mostBlogs(posts)
+    assert.deepStrictEqual(results, {
+      author: "Robert C. Martin",
+      blogs: 2
+    })
   })
 })

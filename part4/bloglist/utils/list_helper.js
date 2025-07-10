@@ -17,19 +17,16 @@ const favoriteBlog = (blogs) => {
 const mostBlogs = (blogs) => {
   let count = {}
   blogs.forEach(blog => {
-    count[author] ? count[blog.author] += 1 : count[blog.author] = 1
+    count[blog.author] = (count[blog.author] || 0) + 1
   })
 
-  let topAuthor = count.reduce((previous, current) => {
-    previous[author] > current[author] ? previous : current
-  })
+  const entries = Object.entries(count)
 
-  let topBlogger = {
-    author: topAuthor, 
-    blogs: count[topAuthor]
-  }
+  const topAuthor = entries.reduce((max, [author, blogs]) => {
+    return blogs > max.blogs ? { author, blogs } : max
+  }, { author: null, blogs: 0 })
 
-  return topBlogger
+  return topAuthor
 }
 
 module.exports = {
