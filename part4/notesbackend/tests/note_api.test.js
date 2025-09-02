@@ -13,15 +13,16 @@ describe('when there is initially some notes saved', () => {
     await Note.deleteMany({})
     await Note.insertMany(helper.initialNotes)
   })
+
+  test('notes are returned as json', async () => {
+    console.log('entered test')
+    await api
+      .get('/api/notes')
+      .expect(200)
+      .expect('Content-Type', /application\/json/)
+  })
 })
 
-test('notes are returned as json', async () => {
-  console.log('entered test')
-  await api
-    .get('/api/notes')
-    .expect(200)
-    .expect('Content-Type', /application\/json/)
-})
 
 
 test('all notes are returned', async () => {
