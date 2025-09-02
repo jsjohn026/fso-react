@@ -1,5 +1,5 @@
 const assert = require('node:assert')
-const { test, after, beforeEach } = require('node:test')
+const { test, after, beforeEach, describe } = require('node:test')
 const mongoose = require('mongoose')
 const supertest = require('supertest')
 const app = require('../app')
@@ -8,9 +8,11 @@ const Note = require('../models/note')
 
 const api = supertest(app)
 
-beforeEach(async () => {
-  await Note.deleteMany({})
-  await Note.insertMany(helper.initialNotes)
+describe('when there is initially some notes saved', () => {
+  beforeEach(async () => {
+    await Note.deleteMany({})
+    await Note.insertMany(helper.initialNotes)
+  })
 })
 
 test('notes are returned as json', async () => {
