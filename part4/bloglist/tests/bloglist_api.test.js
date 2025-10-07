@@ -13,17 +13,17 @@ test('blogs are returned as json', async () => {
     .expect('Content-type', /application\/json/)
 })
 
-test('all notes are returned', async () => {
+test('all blogs are returned', async () => {
   const response = await api.get('/api/blogs')
 
   assert.strictEqual(response.body.length, 2)
 })
 
-test('a specific note is within the returned notes', async () => {
+test('a specific blog is within the returned blogs', async () => {
   const response = await api.get('/api/blogs')
 
   const contents = response.body.map(e => e.content)
-  assert.strictEqual(contents.includes('Fake Blogs R Us'), true)
+  assert(contents.includes('Fake Blogs R Us'))
 })
 
 after(async () => {
